@@ -1,32 +1,37 @@
-import React, { useEffect } from 'react'
-import Dynamsoft from 'dynamsoft-javascript-barcode'
+import React, { useEffect, useRef } from 'react'
+
+
+const Dynamsoft = window.Dynamsoft;
 
 const Scanner = () => {
-  let scanner = null
-  useEffect(() => {
-    Dynamsoft.BarcodeScanner.createInstance({
-      UIElement: document.getElementById('scanner-container'),
-      //   onFrameRead: (results) => {},
-      onUnduplicatedRead: ((txt, result) => {
-        console.log('text', txt)
-        console.log('result', result)
-      }),
-    }).then((s) => {
-      scanner = s
+    const divScanner = useRef(null);
 
-      scanner.show().catch((ex) => {
-        console.log(ex)
-        alert('ex.message || ex')
-        scanner.hide()
-      })
+    useEffect(() => {
+        console.log('auauauaua')
+        const createScanner = async () => {
+            let scanner = await Dynamsoft.BarcodeScanner.createInstance();
+            scanner.setUIElement(divScanner.current)
+
+            scanner.onFrameRead = results => {
+                if (results.length) {
+                    console.log('rrr', results);
+                }
+            };
+
+            scanner.onUnduplicatedRead = (txt, result) => {
+               console.log('yyy', result.barcodeFormatString + ': ' + txt);
+            };
+            await scanner.open()
+        }
+
+        createScanner()
     })
-  })
 
-  return (
-    <div id="scanner-container">
-      <video className="dbrScanner-video" playsInline />
-    </div>
-  )
+    return (
+        <div id="scanner-container" ref={divScanner}>
+            <video className="dbrScanner-video" playsInline />
+        </div>
+    )
 }
 
 export default Scanner
