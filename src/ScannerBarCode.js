@@ -1,35 +1,38 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import { BrowserBarcodeReader } from '@zxing/library';
 
-
-const Dynamsoft = window.Dynamsoft;
 
 const Scanner = () => {
     const divScanner = useRef(null);
+    const [code, setCode] = useState('not found');
 
     useEffect(() => {
-        console.log('auauauaua')
-        const createScanner = async () => {
-            let scanner = await Dynamsoft.BarcodeScanner.createInstance();
-            scanner.setUIElement(divScanner.current)
 
-            scanner.onFrameRead = results => {
-                if (results.length) {
-                    console.log('rrr', results);
-                }
-            };
+        const codeReader = new BrowserBarcodeReader()
+        console.log('ZXing code reader initialized')
+        codeReader.getVideoInputDevices()
+            .then((videoInputDevices) => {
+               const selectedDeviceId = videoInputDevices[0].deviceId
 
-            scanner.onUnduplicatedRead = (txt, result) => {
-               console.log('yyy', result.barcodeFormatString + ': ' + txt);
-            };
-            await scanner.open()
-        }
-
-        createScanner()
+                // document.getElementById('startButton').addEventListener('click', () => {
+                    codeReader.decodeOnceFromVideoDevice(selectedDeviceId, 'video').then((result) => {
+                        if(result) {
+                            setCode(result.text)
+                            console.log('result', result)
+                        }
+                    }).catch((err) => {
+                        console.error(err)
+                    })
+                })
+            .catch((err) => {
+                console.error(err)
+            })
     })
 
     return (
         <div id="scanner-container" ref={divScanner}>
-            <video className="dbrScanner-video" playsInline />
+            <video id="video" className="dbrScanner-video" playsInline />
+            <div>Code: {code}</div>
         </div>
     )
 }
