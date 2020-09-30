@@ -3867,6 +3867,11 @@ duplexify@^3.4.2, duplexify@^3.6.0:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
+dynamsoft-javascript-barcode@^7.6.0:
+  version "7.6.0"
+  resolved "https://registry.yarnpkg.com/dynamsoft-javascript-barcode/-/dynamsoft-javascript-barcode-7.6.0.tgz#429af91fbe75f1c1acd33b3e861b45465b1d9bed"
+  integrity sha512-vpTmxJGQ8kVGEoioc31l1ve9833+BfqtnZP6wqGB/TjS7sVpjIFvCi8VMJCJmHjCrVJwarhY8M+AwBYELZFyNw==
+
 ecc-jsbn@~0.1.1:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/ecc-jsbn/-/ecc-jsbn-0.1.2.tgz#3a83a904e54353287874c564b7549386849a98c9"
