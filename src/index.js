@@ -4,9 +4,10 @@ import ReactDOM from 'react-dom';
 import Scanner from './ScannerBarCode';
 
 import * as serviceWorker from './serviceWorker'
+import CameraApp from './Camera';
 
 ReactDOM.render(
-   <Scanner />, 
+   <CameraApp />, 
   document.getElementById('root')
 )
 
